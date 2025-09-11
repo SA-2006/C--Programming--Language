@@ -1,5 +1,5 @@
-#This is the list of my favourite coding languages.
-- []**Python**
+##This is the list of my favourite coding languages.
+- [x]**Python**
 - []*Javascript*
 - []***C++***
 - []~~C~~
