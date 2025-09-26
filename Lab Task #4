@@ -1,1 +1,24 @@
+#include <stdio.h>
 
+int main()
+{
+	
+int i,num,rep;
+//printf("Till how many repetions: \n");
+//scanf("%d", &input);
+
+printf("What number table do you want to print: ");
+scanf("%d",&num);
+
+printf("From where do you want to print: ");
+scanf("%d",&rep);
+
+for( i=rep; i>0; i-=1)	
+{
+	printf("%d * %d = %d\n", num,i,i*num);
+
+}
+
+
+return 0;
+}
