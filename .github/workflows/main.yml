@@ -14,5 +14,13 @@ jobs:
 
       - name: Compile and Run
         run: |
-          gcc task.c -o task
-          ./task
+          mkdir -p out
+          gcc task.c -o out/task
+          # Run program, show output in logs AND save to file
+          ./out/task | tee out/output.txt
+
+      - name: Upload Output
+        uses: actions/upload-artifact@v3
+        with:
+          name: program-output
+          path: out/
