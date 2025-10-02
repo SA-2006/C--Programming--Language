@@ -1,44 +1,18 @@
-name: Compile and Run C Programs
+name: Run C Code
 
-on:
-  push:
-    paths:
-      - '**/*.c'
-  workflow_dispatch:   # allows manual run from Actions tab
+on: [push]
 
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install GCC
-        run: sudo apt-get update && sudo apt-get install -y build-essential
+        run: sudo apt-get install -y gcc
 
-      - name: Compile and run all C programs
+      - name: Compile and Run
         run: |
-          mkdir -p out
-          for f in $(find . -name "*.c"); do
-            prog=$(basename "$f" .c)
-            dir=$(dirname "$f" | sed 's|./||')
-            outdir="./out/${dir}_${prog}"
-            mkdir -p "$outdir"
-
-            echo "Compiling $f ..."
-            gcc "$f" -o "$outdir/$prog" 2> "$outdir/compile_err.txt" || true
-
-            if [ -x "$outdir/$prog" ]; then
-              echo "Running $prog ..."
-              timeout 5 "$outdir/$prog" > "$outdir/program_output.txt" 2>&1 || echo "Program ended with non-zero exit" >> "$outdir/program_output.txt"
-            else
-              echo "Compilation failed, see compile_err.txt" > "$outdir/program_output.txt"
-            fi
-          done
-
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        with:
-          name: lab-results
-          path: out/
+          gcc task.c -o task
+          ./task
