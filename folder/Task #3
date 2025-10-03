@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+char ch,choice;
+int vovels=0,consonants=0;
+do
+{
+printf("Enter a character:\n ");
+scanf(" %c",&ch);
+switch(ch)
+{
+case 'a':
+case 'e':	
+case 'i':
+case 'o':
+case 'u':
+	vovels+=1;
+	break;
+default:
+	consonants+=1;	
+}
+printf("Do you want to continue? (y for yes / n for no)\n");
+scanf(" %c",&choice);
+}
+while(choice=='y');
+printf("Total number of vovels are: %d\n",vovels);	
+printf("Total number of consonants are: %d\n",consonants);	
+return 0;
+}
