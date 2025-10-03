@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+int i,a,limit,countmod=0,primecount=0,sum=0;
+
+printf("Enter a number till which you want to find prime numbers: ");
+scanf("%d",&limit);
+
+for(i=2;i<=limit;i++)	
+{
+	countmod=0;
+	for(a=1;a<=i;a++)
+	{
+		if((i%a)==0)
+		{
+			countmod+=1;
+		}
+	}
+	if(countmod==2)
+	{
+	printf("%d is a prime number\n",i);	
+	primecount+=1;
+	sum+=i;
+	}	
+}
+
+printf("Total number of prime numbers are: %d\n",primecount);	
+printf("Sum of prime numbers is: %d\n",sum);
+
+return 0;
+}
