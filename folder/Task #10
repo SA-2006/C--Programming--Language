@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+int num,total;
+char ch;	
+do
+{
+		
+printf("Enter number until you wnat to: \n");
+scanf("%d",&num);
+
+total+=num;
+
+printf("The total is: %d\n",total);
+
+
+printf("Do you want to continue?(Y for yes, N for no)\n");
+scanf(" %c",&ch);
+}
+while(ch=='Y');
+return 0;
+
+}
