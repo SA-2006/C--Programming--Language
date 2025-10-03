@@ -1,0 +1,27 @@
+#include <stdio.h>
+int main()
+{
+	int num;
+	int counteven,countodd;
+	char choice;
+do{
+printf("Enter the number please: \n");
+scanf("%d",&num);
+if((num%2)==0)
+{
+	counteven+=1;
+	printf("%d is even ",num);
+}
+else
+{
+	countodd+=1;
+	printf("%d is odd ",num);
+}
+printf("Enter 'Y' to continue and 'N' to stop. \n");
+scanf(" %c",&choice);
+}
+while(choice =='Y');
+printf("Total number of even numbers are: %d \n",counteven);
+printf("Total number of odd numbers are: %d \n",countodd);
+return 0;
+}
