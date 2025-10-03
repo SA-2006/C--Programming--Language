@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+int amt,bal=5000,dep=0,with=0;
+do
+{
+printf("Enter the transcation amount. Positive for deposit, negative for withdraws, and zero to stop: ");
+scanf("%d",&amt);	
+
+if(amt>0)
+{
+	dep+=1;
+}
+else if(amt<0)
+{
+	with+=1;
+}
+
+bal=bal+amt;
+printf("Your updated balance is: %d\n",bal);
+}
+while(amt!=0);
+
+printf("Your final balance is: %d\n",bal);
+printf("Total number of deposits are: %d\n",dep);
+printf("Total number of withdraws are: %d\n",with);
+
+return 0;
+}
