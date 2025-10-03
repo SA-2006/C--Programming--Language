@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+int num;
+char ch;
+
+printf("Enter numbers to find largest and smallest: \n");
+scanf("%d",&num);
+int lar=num,sml=num;
+do
+{
+		
+printf("Enter again: \n");
+scanf("%d",&num);
+
+if(num>lar)
+{
+	lar=num;
+}
+else if(num<sml)
+{
+	sml=num;
+}
+printf("The largest number is: %d\n",lar);
+printf("The smallest number is: %d\n",sml);
+
+printf("Do you want to continue?(Y for yes, N for no)\n");
+scanf(" %c",&ch);
+}
+while(ch=='Y');
+return 0;
+
+}
