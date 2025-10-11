@@ -14,17 +14,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Find the most recently changed/added C/C++ file (from last commit)
+            - name: Find the most recently modified C/C++ file in the repo
         id: find_file
         run: |
-          # list files changed in the latest commit, pick the last C/C++ file if any
-          latest_file=$(git log -1 --name-only --pretty=format: | grep -E "\.c$|\.cpp$" | tail -n 1 || true)
+          latest_file=$(find . -type f \( -name "*.c" -o -name "*.cpp" \) -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
           if [ -z "$latest_file" ]; then
-            echo "No C/C++ file found in the latest commit."
+            echo "❌ No C/C++ file found in the repository."
             exit 1
           fi
           echo "latest_file=$latest_file" >> $GITHUB_ENV
           echo "✅ Latest file detected: $latest_file"
+
 
       - name: Compile and Run Latest File (with optional input.txt)
         run: |
