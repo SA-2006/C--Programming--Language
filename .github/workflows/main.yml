@@ -1,18 +1,63 @@
-name: Run C Code
+name: Auto Compile and Run Latest C/C++ File (with Input Support)
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build-and-run:
+  run-latest:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install GCC
-        run: sudo apt-get install -y gcc
-
-      - name: Compile and Run
+      - name: Find the most recently changed/added C/C++ file (from last commit)
+        id: find_file
         run: |
-          gcc task.c -o task
-          ./task
+          # list files changed in the latest commit, pick the last C/C++ file if any
+          latest_file=$(git log -1 --name-only --pretty=format: | grep -E "\.c$|\.cpp$" | tail -n 1 || true)
+          if [ -z "$latest_file" ]; then
+            echo "No C/C++ file found in the latest commit."
+            exit 1
+          fi
+          echo "latest_file=$latest_file" >> $GITHUB_ENV
+          echo "✅ Latest file detected: $latest_file"
+
+      - name: Compile and Run Latest File (with optional input.txt)
+        run: |
+          mkdir -p out
+          file="$latest_file"
+          echo "File to run: '$file'"
+          name=$(basename "$file" | cut -d. -f1)
+          out="./out/${name}"
+          dir=$(dirname "$file")
+
+          echo "=============================="
+          echo "Compiling: $file"
+          echo "=============================="
+
+          if [[ "$file" == *.cpp ]]; then
+            g++ "$file" -o "$out"
+          else
+            gcc "$file" -o "$out"
+          fi
+
+          echo "------------------------------"
+          # run with input.txt if present in same directory, otherwise run without input
+          if [ -f "$dir/input.txt" ]; then
+            echo "Found input.txt in $dir — feeding input to program..."
+            "$out" < "$dir/input.txt" | tee "out/${name}_output.txt"
+          else
+            echo "No input.txt found — running program without input..."
+            "$out" | tee "out/${name}_output.txt"
+          fi
+
+      - name: Upload Output Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: latest-program-output
+          path: out/
+
