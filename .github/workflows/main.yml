@@ -12,25 +12,26 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-            - name: Find the most recently modified C/C++ file in the repo
+      - name: Find the most recently modified C/C++ file in the repo
         id: find_file
         run: |
+          # Find the most recently modified .c or .cpp file
           latest_file=$(find . -type f \( -name "*.c" -o -name "*.cpp" \) -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
+          
           if [ -z "$latest_file" ]; then
             echo "❌ No C/C++ file found in the repository."
             exit 1
           fi
+
           echo "latest_file=$latest_file" >> $GITHUB_ENV
           echo "✅ Latest file detected: $latest_file"
-
 
       - name: Compile and Run Latest File (with optional input.txt)
         run: |
           mkdir -p out
           file="$latest_file"
-          echo "File to run: '$file'"
           name=$(basename "$file" | cut -d. -f1)
           out="./out/${name}"
           dir=$(dirname "$file")
@@ -46,12 +47,11 @@ jobs:
           fi
 
           echo "------------------------------"
-          # run with input.txt if present in same directory, otherwise run without input
           if [ -f "$dir/input.txt" ]; then
-            echo "Found input.txt in $dir — feeding input to program..."
+            echo "📥 Found input.txt in $dir — feeding input to program..."
             "$out" < "$dir/input.txt" | tee "out/${name}_output.txt"
           else
-            echo "No input.txt found — running program without input..."
+            echo "⚠️ No input.txt found — running program without input..."
             "$out" | tee "out/${name}_output.txt"
           fi
 
@@ -60,4 +60,3 @@ jobs:
         with:
           name: latest-program-output
           path: out/
-
