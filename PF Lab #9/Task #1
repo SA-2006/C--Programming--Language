@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int square(int num)
+{
+	int	result=num*num;	
+	return num*num;
+}	
+
+int main()
+{
+	int num;
+	printf("Enter a number to find its square: ");
+	scanf("%d",&num);	
+	printf("The square is: %d",square(num));
+
+	
+return 0;
+}
