@@ -1,0 +1,37 @@
+#include <stdio.h>
+int main()
+{
+	int len;
+	printf("Enter the length of array: \n");
+	scanf("%d", &len);	
+	int arr[len]={0};
+	printf("\nEnter the elements of array: \n");
+	for(int i=0; i<len; i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+	
+	printf("Your array before was: \n");
+	for(int b=0; b<len; b++)
+	{
+		printf("%d ",arr[b]);
+	}
+	int unipos=1;
+	for(int count=1; count<len; count++)
+	{
+		if(arr[count] != arr[unipos-1])
+		{
+			arr[unipos]= arr[count];
+			unipos++;
+		}
+	}
+	
+	printf("\nYour array now is: \n");
+	for(int a=0; a<unipos; a++)
+	{
+		printf("%d ",arr[a]);
+	}
+	printf("\nNumber of unique elements: %d\n", unipos);
+	
+return 0;
+}
